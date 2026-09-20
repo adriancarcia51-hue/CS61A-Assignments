@@ -14,8 +14,7 @@ test = {
           ...        return 'cake'
           ...    return pie
           >>> chocolate = cake()
-          0127137631d037670fa6a894e2d548ee
-          # locked
+          beets
           >>> chocolate
           4f02258d689b15b516174b381ad2aef8
           # locked
