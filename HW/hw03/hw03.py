@@ -25,6 +25,12 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n==8:
+        return 1
+    elif n<10:
+        return 0
+    else:
+        return num_eights(n%10)+num_eights(n//10)
 
 
 def digit_distance(n):
@@ -47,6 +53,9 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n<10:
+        return 0
+    return abs((n%10)-((n//10)%10))+digit_distance(n//10)
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -71,6 +80,13 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(k):
+        if k>n:
+            return 0
+        if k==n:
+            return odd_func(k)
+        return odd_func(k)+even_func(k+1)+helper(k+2)
+    return helper(1)
 
 
 def next_smaller_dollar(bill):
@@ -107,6 +123,13 @@ def count_dollars(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(amount, bill):
+        if amount == 0:
+            return 1
+        if amount < 0 or bill is None:
+            return 0
+        return helper(amount - bill, bill) + helper(amount, next_smaller_dollar(bill))
+    return helper(total, 100)
 
 
 def next_larger_dollar(bill):
@@ -143,6 +166,13 @@ def count_dollars_upward(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(amount,bill):
+        if amount==0:
+            return 1
+        if amount<0 or bill is None:
+            return 0
+        return helper(amount - bill, bill) + helper(amount, next_larger_dollar(bill))
+    return helper(total,1)
 
 
 def print_move(origin, destination):
@@ -178,6 +208,14 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    another=6-start-end
+    if n==1:
+        print_move(start,end)
+        return
+    move_stack(n-1,start,another)
+    print_move(start,end)
+    move_stack(n-1,another,end)
+            
 
 
 from operator import sub, mul
@@ -193,5 +231,6 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
-
+    return (lambda f: f(f))(
+        lambda f: lambda n: 1 if n == 1 else mul(n, f(f)(sub(n, 1)))
+    )
