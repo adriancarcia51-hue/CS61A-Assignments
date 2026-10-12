@@ -185,6 +185,12 @@ def two_list(vals, counts):
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
     "*** YOUR CODE HERE ***"
+    if not vals:
+        return Link.empty
+    rest = two_list(vals[1:], counts[1:])
+    for _ in range(counts[0]):
+        rest = Link(vals[0], rest)
+    return rest
 
 
 class Link:
